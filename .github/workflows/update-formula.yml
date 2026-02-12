@@ -1,0 +1,64 @@
+name: Update Formula
+
+on:
+  workflow_dispatch:
+    inputs:
+      formula:
+        description: 'Formula name (e.g., gccli)'
+        required: true
+        type: string
+      tag:
+        description: 'Release tag to update formula for'
+        required: true
+        type: string
+      repository:
+        description: 'Source repository (e.g., bpauli/gccli)'
+        required: true
+        type: string
+
+jobs:
+  update-formula:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tap repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Update formula
+        run: |
+          FORMULA="${{ github.event.inputs.formula }}"
+          TAG="${{ github.event.inputs.tag }}"
+          REPO="${{ github.event.inputs.repository }}"
+          VERSION="${TAG#v}"
+
+          # Download checksums file
+          CHECKSUMS_URL="https://github.com/${REPO}/releases/download/${TAG}/checksums.txt"
+          curl -L "${CHECKSUMS_URL}" -o checksums.txt
+
+          # Extract SHA256 values from checksums
+          SHA_DARWIN_ARM64=$(grep "darwin_arm64" checksums.txt | awk '{print $1}')
+          SHA_DARWIN_AMD64=$(grep "darwin_amd64" checksums.txt | awk '{print $1}')
+          SHA_LINUX_ARM64=$(grep "linux_arm64" checksums.txt | awk '{print $1}')
+          SHA_LINUX_AMD64=$(grep "linux_amd64" checksums.txt | awk '{print $1}')
+
+          FORMULA_FILE="Formula/${FORMULA}.rb"
+
+          # Update version
+          sed -i "s/version \".*\"/version \"${VERSION}\"/" "${FORMULA_FILE}"
+
+          # Update SHA256 values (match by surrounding URL context)
+          sed -i "/darwin_arm64/{n;s/sha256 \".*\"/sha256 \"${SHA_DARWIN_ARM64}\"/}" "${FORMULA_FILE}"
+          sed -i "/darwin_amd64/{n;s/sha256 \".*\"/sha256 \"${SHA_DARWIN_AMD64}\"/}" "${FORMULA_FILE}"
+          sed -i "/linux_arm64/{n;s/sha256 \".*\"/sha256 \"${SHA_LINUX_ARM64}\"/}" "${FORMULA_FILE}"
+          sed -i "/linux_amd64/{n;s/sha256 \".*\"/sha256 \"${SHA_LINUX_AMD64}\"/}" "${FORMULA_FILE}"
+
+          # Commit and push
+          git add "${FORMULA_FILE}"
+          git commit -m "Update ${FORMULA} to ${TAG}"
+          git push
