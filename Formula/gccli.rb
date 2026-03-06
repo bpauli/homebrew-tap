@@ -1,26 +1,26 @@
 class Gccli < Formula
   desc "CLI for Garmin Connect — activities, health, workouts, devices, and more"
   homepage "https://github.com/bpauli/gccli"
-  version "1.0.0"
+  version "1.1.0"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/bpauli/gccli/releases/download/v#{version}/gccli_#{version}_darwin_arm64.tar.gz"
-      sha256 "90043251b44258fd4847f2e96bcd1b75ac394f86e28d0e36c9bff3d76b8de934"
+      sha256 "c37948360f4cc9385d614e4da73ed44530f65d4b8c6f96181a6dfeefe7527e66"
     else
       url "https://github.com/bpauli/gccli/releases/download/v#{version}/gccli_#{version}_darwin_amd64.tar.gz"
-      sha256 "358fdcf72fdb12da146a0d87386d13948b3e10a7feec0ded6b77390003e2a26a"
+      sha256 "ab0ed6ec2c170346dbd543bf1a4a0c83a19af475214463f87731c5e2e8093c4b"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/bpauli/gccli/releases/download/v#{version}/gccli_#{version}_linux_arm64.tar.gz"
-      sha256 "5a268f8e90ffedd859075cdfcf06135338b7fab5c3052833ee032a04fb9fca83"
+      sha256 "4115be271b332d9064a0b4ec357ff930686432ef5e2eb176a625a8cafd0efcaa"
     else
       url "https://github.com/bpauli/gccli/releases/download/v#{version}/gccli_#{version}_linux_amd64.tar.gz"
-      sha256 "523cae8aa8496f0e8ee1376d528aad74a15aab53cb3e4f219ee6b713ef8eab08"
+      sha256 "5b5a27d516500c1bff4293c3cd52d24358d7e31fcf6ff5b81a2dd6ef08ba0049"
     end
   end
 
