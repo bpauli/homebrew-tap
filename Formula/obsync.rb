@@ -1,26 +1,26 @@
 class Obsync < Formula
   desc "Obsidian Sync CLI for headless Linux servers"
   homepage "https://github.com/bpauli/obsync"
-  version "0.1.2"
+  version "0.2.0"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/bpauli/obsync/releases/download/v#{version}/obsync_#{version}_darwin_arm64.tar.gz"
-      sha256 "d7a39219b3e4a2e33213e0c6124785d51d59d985c16f7bb3c36c26efbe615359"
+      sha256 "76027ba74a0951f84d251a2c589858434c2fee2abe78faa50896ffff1b0edc95"
     else
       url "https://github.com/bpauli/obsync/releases/download/v#{version}/obsync_#{version}_darwin_amd64.tar.gz"
-      sha256 "ef1c74d79982953666bb75cd82efb01cdd5c551134c1e0c2b2ae8fc6fe17f69b"
+      sha256 "e0365b91bbbe33af1886b5357cb1f2e9de214b8c004d24df6eb1baa4eae135fd"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/bpauli/obsync/releases/download/v#{version}/obsync_#{version}_linux_arm64.tar.gz"
-      sha256 "9bf298ffbf69967294fa90ec0836685e3dbccfb4be72ce2ba20afe4e5623308b"
+      sha256 "cd67cda0df17d5c2b20fe07098d2d7c269d201b7e8a3c5b3ea8e73a948a3c539"
     else
       url "https://github.com/bpauli/obsync/releases/download/v#{version}/obsync_#{version}_linux_amd64.tar.gz"
-      sha256 "c0c9e4779deb4be59e6be40c1e9c68c0773a5d77e3f546ee5eb2f272e3a42425"
+      sha256 "6c873dc68b74f16c2f43210b98658debcf523557ff251f49648d8367328cebe0"
     end
   end
 
